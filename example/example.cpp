@@ -27,7 +27,7 @@ namespace examples
     namespace by_address
     {
         const uint32_t READ_WRITE_M_BASE = 0x4020;
-        void read(std::ostream& out, long port, const AmsAddr& server)
+        void read(long port, const AmsAddr& server, std::ostream& out)
         {
             uint32_t bytesRead;
             uint32_t buffer;
@@ -49,7 +49,7 @@ namespace examples
             }
         }
 
-        void notification(std::ostream& out, long port, const AmsAddr& server)
+        void notification(long port, const AmsAddr& server, std::ostream& out)
         {
             const AdsNotificationAttrib attrib = {
                 1,
@@ -88,8 +88,7 @@ namespace examples
     {
         struct auto_handle
         {
-            auto_handle(std::ostream& out, long port, const AmsAddr& server,
-                const std::string name)
+            auto_handle(long port, const AmsAddr& server, const std::string name, std::ostream& out)
                 : m_out(out), m_port(port), m_server(server), m_name(name), m_handle(0)
             {
                 const long handleStatus = AdsSyncReadWriteReqEx2(m_port,
@@ -126,7 +125,7 @@ namespace examples
             const std::string m_name;
         };
 
-        void notification(std::ostream& out, long port, const AmsAddr& server)
+        void notification(long port, const AmsAddr& server, std::ostream& out)
         {
             const AdsNotificationAttrib attrib = {
                 1,
@@ -138,7 +137,7 @@ namespace examples
             uint32_t hUser = 0;
 
             out << __FUNCTION__ << "():\n";
-            auto_handle handle(out, port, server, "MAIN.byByte");
+            auto_handle handle(port, server, "MAIN.byByte", out);
 
             const long addStatus = AdsSyncAddDeviceNotificationReqEx(port,
                 &server,
@@ -163,13 +162,13 @@ namespace examples
             }
         }
 
-        void read(std::ostream& out, long port, const AmsAddr& server)
+        void read(long port, const AmsAddr& server, std::ostream& out)
         {
             uint32_t bytesRead;
             uint32_t buffer;
 
             out << __FUNCTION__ << "():\n";
-            auto_handle handle(out, port, server, "MAIN.byByte");
+            auto_handle handle(port, server, "MAIN.byByte", out);
 
             for (size_t i = 0; i < 8; ++i) {
                 const long status = AdsSyncReadReqEx2(port,
@@ -186,14 +185,9 @@ namespace examples
                 out << "ADS read " << std::dec << bytesRead << " bytes, value: 0x" << std::hex << buffer << '\n';
             }
         }
-
     }
 
-
-
-
-
-    void readState(std::ostream& out, long port, const AmsAddr& server)
+    void readState(long port, const AmsAddr& server, std::ostream& out)
     {
         uint16_t adsState;
         uint16_t devState;
@@ -208,7 +202,6 @@ namespace examples
 
     void run(const remote_target& target, std::ostream& out = std::cout)
     {
-
 
         // add local route to your EtherCAT Master
         if (AdsAddRoute(target.server.netId, target.ip_v4)) {
@@ -225,11 +218,11 @@ namespace examples
 
         const AmsAddr& server = target.server;
 
-        by_address::notification(out, port, server);
-        by_name::notification(out, port, server);
-        by_address::read(out, port, server);
-        by_name::read(out, port, server);
-        readState(out, port, server);
+        by_address::notification(port, server, out);
+        by_name::notification(port, server, out);
+        by_address::read(port, server, out);
+        by_name::read(port, server, out);
+        readState(port, server, out);
 
         const long closeStatus = AdsPortCloseEx(port);
         if (closeStatus) {
