@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(Ads VERSION 1.1.5.0)
+project(Ads VERSION 0.0.0.1)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
