@@ -1,12 +1,7 @@
-
-#include "AdsLib.h"
+#include <AdsLib.h>
+#include "app_config.hpp"
 
 #include <iostream>
-
-struct remote_target {
-    const char* ip_v4;
-    AmsAddr server;
-};
 
 namespace examples
 {
@@ -203,7 +198,7 @@ void readState(long port, const AmsAddr& server, std::ostream& out)
     out << "ADS state: " << std::dec << adsState << " devState: " << std::dec << devState << '\n';
 }
 
-void run(const remote_target& target, std::ostream& out = std::cout)
+void run(const test_twincat_server::remote_target& target, std::ostream& out = std::cout)
 {
     // add local route to your EtherCAT Master
     if (AdsAddRoute(target.server.netId, target.ip_v4)) {
@@ -243,25 +238,5 @@ void run(const remote_target& target, std::ostream& out = std::cout)
 
 int main()
 {
-    // example for TWinCAT2
-    const remote_target target_tc2 = {
-        "10.8.9.36",                    // ip v4
-        {
-            { 10, 0, 96, 139, 1, 1 },   // AMS Net Id
-            AMSPORT_R0_PLC              // AMS Port number
-        }
-    };
-
-    /*
-       // example for TWinCAT3
-       const remote_target target_tc3 = {
-        "192.168.0.232",                 // ip v4
-        {
-            { 192, 168, 0, 231, 1, 1 },  // AMS Net Id
-            AMSPORT_R0_PLC_TC3           // AMS Port number
-        }
-       };
-     */
-
-    examples::run(target_tc2, std::cout);
+    examples::run(test_twincat_server::tc2, std::cout);
 }

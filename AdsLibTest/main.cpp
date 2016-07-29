@@ -1,5 +1,5 @@
-
 #include <AdsLib.h>
+#include "app_config.hpp"
 
 #include "AmsRouter.h"
 
@@ -9,8 +9,8 @@
 #include <fructose/fructose.h>
 using namespace fructose;
 
-static const AmsNetId serverNetId {192, 168, 0, 231, 1, 1};
-static const AmsAddr server {serverNetId, AMSPORT_R0_PLC_TC3};
+static const AmsNetId& serverNetId = test_twincat_server::tc2.server.netId; // {192, 168, 0, 231, 1, 1};
+static const AmsAddr& server = test_twincat_server::tc2.server; // {serverNetId, AMSPORT_R0_PLC_TC3};
 static const AmsAddr serverBadPort {serverNetId, 1000};
 
 static size_t g_NumNotifications = 0;

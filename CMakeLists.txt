@@ -4,10 +4,19 @@ project(Ads VERSION 0.0.0.1)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # load local scripts
-include (cmake/Global.cmake)       
- 
+include (cmake/Global.cmake)      
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file (
+  "${PROJECT_SOURCE_DIR}/app_config.hpp.in"
+  "${PROJECT_SOURCE_DIR}/app_config.hpp"
+  ) 
+
+# header files  
 include_directories(./AdsLib) 
 include_directories(./3rd) 
+include_directories(.) 
 
 # for AdsLib
 set(adslib_root ./AdsLib)
