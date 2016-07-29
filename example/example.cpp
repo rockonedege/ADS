@@ -205,7 +205,9 @@ namespace examples
 
         // add local route to your EtherCAT Master
         if (AdsAddRoute(target.server.netId, target.ip_v4)) {
-            out << "Adding ADS route failed, did you specified valid addresses?\n";
+            out << "Adding ADS route failed,\n"
+                << "- did you specified valid addresses?\n"
+                << "- is TWinCAT System Manager started?";
             return;
         }
 
