@@ -3,6 +3,8 @@ project(Ads VERSION 0.0.0.1)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+option(has_twincat_dll "set has_twincat_dll to ON if compiled on a workstation with TWinCAT installed" OFF)
+
 # load local scripts
 include (cmake/Global.cmake)      
 
@@ -35,13 +37,16 @@ target_link_libraries (example AdsLib ws2_32)
 add_executable(AdsLibTest AdsLibTest/main.cpp)
 target_link_libraries (AdsLibTest AdsLib ws2_32)
 
-# AdsLibTestRef
-set(TWinCAT_TcAdsDll C:/TwinCAT/AdsApi/TcAdsDll)
-include_directories(${TWinCAT_TcAdsDll}/Include)
-if( ${TARGET_PLATFORM_BITS} EQUAL 64 )
-    link_directories(${TWinCAT_TcAdsDll}/x64/Lib)
-else()
-    link_directories(${TWinCAT_TcAdsDll}/Lib)
+
+if(${has_twincat_dll})
+    # AdsLibTestRef
+    set(TWinCAT_TcAdsDll C:/TwinCAT/AdsApi/TcAdsDll)
+    include_directories(${TWinCAT_TcAdsDll}/Include)
+    if( ${TARGET_PLATFORM_BITS} EQUAL 64 )
+        link_directories(${TWinCAT_TcAdsDll}/x64/Lib)
+    else()
+        link_directories(${TWinCAT_TcAdsDll}/Lib)
+    endif()
+    add_executable(AdsLibTestRef AdsLibTestRef/main.cpp)
+    target_link_libraries (AdsLibTestRef TcAdsDll ws2_32)
 endif()
-add_executable(AdsLibTestRef AdsLibTestRef/main.cpp)
-target_link_libraries (AdsLibTestRef TcAdsDll ws2_32)

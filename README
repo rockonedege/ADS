@@ -1,3 +1,20 @@
+Notes specific to this fork
+===========================
+This fork adds support for CMake under Windows/Visual Studio 2015, among other opinionated source code re-factoring.
+
+Assuming CMake is installed and added to the Path environment variable, after cloning or downloading the source code,
+- open a "Developer Command Prompt for VS2015", and 
+- navigate to root of source tree,
+- run '.\run.bat'.
+
+3 solutions will now be generated under ~temp\ ready for compilation, 1 NMake project, 2 VS2015 solutions(x32 and x64).
+
+- run 'nmake' to compile the NMake project. 
+
+
+
+
+
 This library is intended to provide easy use as ADS client applications running on non-windows systems (e.g. Linux, Mac OS...) to communicate with TwinCAT devices via TCP/IP.
 
 To build this library a recent compiler with C++11 support is required. 
