@@ -38,7 +38,7 @@ add_executable(AdsLibTest AdsLibTest/main.cpp)
 target_link_libraries (AdsLibTest AdsLib ws2_32)
 
 
-if(${has_twincat_dll})
+if(has_twincat_dll)
     # AdsLibTestRef
     set(TWinCAT_TcAdsDll C:/TwinCAT/AdsApi/TcAdsDll)
     include_directories(${TWinCAT_TcAdsDll}/Include)
