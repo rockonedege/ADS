@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _ADSLIB_H_
-#pragma message("must #include <AdsLib.h> before this file")
+#if !defined(__ADSDEF_H__)
+#pragma message("must #include <AdsLib.h> before this file if using AdsLib or TcAdsDef.h if TWinCAT ADS-DLL")
 #endif
 
 namespace appinfo
@@ -34,7 +34,7 @@ namespace test_twincat_server
     };
 
     // example for TWinCAT2
-    const remote_target tc2 = {
+    remote_target tc2 = {
         "10.8.9.36",                    // ip v4
         {
             { 10, 0, 96, 139, 1, 1 },   // AMS Net Id
